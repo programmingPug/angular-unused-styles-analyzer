@@ -1,13 +1,43 @@
 {
   "name": "angular-unused-styles-analyzer",
   "displayName": "Angular Unused Styles Analyzer",
-  "description": "Analyzes Angular components for unused CSS/SCSS styles",
+  "description": "Analyzes Angular components for unused CSS/SCSS styles and highlights them in real-time",
   "version": "1.0.0",
+  "publisher": "programmingPug",
+  "author": {
+    "name": "Christopher Koch",
+    "email": "ckoch@lazypug.net"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/programmingPug/angular-unused-styles-analyzer#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/programmingPug/angular-unused-styles-analyzer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/programmingPug/angular-unused-styles-analyzer/issues"
+  },
   "engines": {
     "vscode": "^1.74.0"
   },
   "categories": ["Linters", "Other"],
-  "keywords": ["angular", "css", "scss", "unused", "analyzer"],
+  "keywords": [
+    "angular", 
+    "css", 
+    "scss", 
+    "unused", 
+    "analyzer", 
+    "styles", 
+    "component", 
+    "cleanup", 
+    "optimization",
+    "dead-code"
+  ],
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#C80000",
+    "theme": "dark"
+  },
   "activationEvents": [
     "onLanguage:typescript",
     "onLanguage:html",
@@ -20,21 +50,54 @@
       {
         "command": "angular-unused-styles.analyze",
         "title": "Analyze Unused Styles",
-        "category": "Angular"
+        "category": "Angular",
+        "icon": "$(search)"
+      },
+      {
+        "command": "angular-unused-styles.analyzeWorkspace",
+        "title": "Analyze Entire Workspace",
+        "category": "Angular",
+        "icon": "$(folder-opened)"
       }
     ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "angular-unused-styles.analyze",
+          "when": "resourceExtname == .scss || resourceExtname == .css",
+          "group": "angular"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "angular-unused-styles.analyze",
+          "when": "resourceExtname == .scss || resourceExtname == .css",
+          "group": "angular"
+        }
+      ]
+    },
     "configuration": {
       "title": "Angular Unused Styles Analyzer",
       "properties": {
         "angularUnusedStyles.enableRealTimeanalysis": {
           "type": "boolean",
           "default": true,
-          "description": "Enable real-time analysis of unused styles"
+          "description": "Enable real-time analysis of unused styles as you type"
         },
         "angularUnusedStyles.ignoredSelectors": {
           "type": "array",
-          "default": ["::ng-deep", ":host", ":host-context"],
-          "description": "CSS selectors to ignore during analysis"
+          "default": ["::ng-deep", ":host", ":host-context", ":host(.*)"],
+          "description": "CSS selectors to ignore during analysis (supports regex patterns)"
+        },
+        "angularUnusedStyles.analyzeOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically analyze component styles when files are saved"
+        },
+        "angularUnusedStyles.showInformationMessages": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show information messages when analysis is complete"
         }
       }
     }
@@ -42,11 +105,23 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./"
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
   },
   "devDependencies": {
     "@types/vscode": "^1.74.0",
     "@types/node": "16.x",
-    "typescript": "^4.9.4"
+    "@types/mocha": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "mocha": "^10.1.0",
+    "typescript": "^4.9.4",
+    "@vscode/test-electron": "^2.2.0",
+    "vsce": "^2.15.0"
   }
 }
