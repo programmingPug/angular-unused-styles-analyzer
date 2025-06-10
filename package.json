@@ -1,0 +1,52 @@
+{
+  "name": "angular-unused-styles-analyzer",
+  "displayName": "Angular Unused Styles Analyzer",
+  "description": "Analyzes Angular components for unused CSS/SCSS styles",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": ["Linters", "Other"],
+  "keywords": ["angular", "css", "scss", "unused", "analyzer"],
+  "activationEvents": [
+    "onLanguage:typescript",
+    "onLanguage:html",
+    "onLanguage:scss",
+    "onLanguage:css"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "angular-unused-styles.analyze",
+        "title": "Analyze Unused Styles",
+        "category": "Angular"
+      }
+    ],
+    "configuration": {
+      "title": "Angular Unused Styles Analyzer",
+      "properties": {
+        "angularUnusedStyles.enableRealTimeanalysis": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable real-time analysis of unused styles"
+        },
+        "angularUnusedStyles.ignoredSelectors": {
+          "type": "array",
+          "default": ["::ng-deep", ":host", ":host-context"],
+          "description": "CSS selectors to ignore during analysis"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.74.0",
+    "@types/node": "16.x",
+    "typescript": "^4.9.4"
+  }
+}
