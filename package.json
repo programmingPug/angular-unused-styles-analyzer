@@ -3,7 +3,7 @@
   "displayName": "Angular Unused Styles Analyzer",
   "description": "Analyzes Angular components for unused CSS/SCSS styles and highlights them in real-time",
   "version": "1.0.0",
-  "publisher": "programmingPug",
+  "publisher": "LazyPugSolutions",
   "author": {
     "name": "Christopher Koch",
     "email": "ckoch@lazypug.net"
